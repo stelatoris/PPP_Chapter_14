@@ -3,7 +3,6 @@
 // 
 // Chapter 14 Drill and Exercise solutions
 
-// header files for later GUI use
 #include "Simple_window.h"
 #include "Graph.h"
 #include "std_lib_facilities.h"
