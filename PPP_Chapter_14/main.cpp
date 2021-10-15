@@ -16,6 +16,7 @@ try
 {
     Point tl{ 200,200 };
     Simple_window win{ tl,1600,1000,"Chapter 14 Ex 01" };
+
     Graph_lib::Frowny_hat fh1{ Point {400,400}, 100 };    
     win.attach(fh1);
 
