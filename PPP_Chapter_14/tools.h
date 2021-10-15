@@ -3,7 +3,6 @@
 // 
 // Chapter 14 Drill and Exercise solutions
 
-#include "Graph.h"
 #include "std_lib_facilities.h"
 #define PI 3.14159265
 
@@ -89,6 +88,23 @@ namespace Graph_lib {
 
 		void move(int dx, int dy) {}		
 	};
-	
+
+	//--------------------------------------------------------------------------------
+	/*5.Define a Striped_rectangle where instead of fill, the rectangle is “filled”
+		by drawing one - pixel - wide horizontal lines across the inside of the rectangle
+		(say, draw every second line like that).You may have to play with the
+		width of lines and the line spacing to get a pattern you like.
+	*/	
+	struct Striped_rectangle : Rectangle {
+		Striped_rectangle(Point p, int w, int h);
+		void draw_lines() const;
+		void set_stripes_color(Color c);
+
+	private:
+		int w;
+		Lines stripes;
+	};
+
+	//--------------------------------------------------------------------------------
 	
 }	// end of namespace Graph_lib
