@@ -23,13 +23,31 @@ namespace Graph_lib {
 		int end;    // end of angle to be drawn
 	};
 
+	//--------------------------------------------------------------------------------
 	//1. Define two classes Smiley and Frowny, which are both derived from class
 	//	Circleand have two eyesand a mouth.Next, derive classes from Smiley
 	//	and Frowny which add an appropriate hat to each.
 
-	class Smiley :public Circle {
-	public:
-		Smiley(Point p, int rr);
+	struct Smiley : Circle {
+	
+	Smiley(Point p, int rr);
+	void draw_lines() const;
+	void set_eye_size(int r) {
+		l_eye.set_radius(r);
+		r_eye.set_radius(r);
+	}
+
+	private:
+		Circle r_eye;
+		Circle l_eye;
+		Arc m;	// mouth
+		int r;	// head radius
+	};
+	//--------
+
+	struct Frowny : Circle {
+
+		Frowny(Point p, int rr);
 		void draw_lines() const;
 		void set_eye_size(int r) {
 			l_eye.set_radius(r);
@@ -42,5 +60,27 @@ namespace Graph_lib {
 		Arc m;	// mouth
 		int r;	// head radius
 	};
+	//--------
 
+	struct Smiley_hat :Smiley {
+		Smiley_hat(Point p, int rr);
+		void draw_lines() const;		
+
+	private:
+		Polygon h;	// pointy hat
+		void position_hat();
+	};
+	//--------
+
+	struct Frowny_hat :Frowny {
+		Frowny_hat(Point p, int rr);
+		void draw_lines() const;
+
+	private:
+		Polygon h;	// pointy hat
+		void position_hat();
+	};
+	
+	//--------------------------------------------------------------------------------
+	
 }	// end of namespace Graph_lib

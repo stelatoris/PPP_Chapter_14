@@ -3,7 +3,6 @@
 // 
 // Chapter 14 Drill and Exercise solutions
 
-// header files for later GUI use
 #include "Simple_window.h"
 #include "Graph.h"
 #include "std_lib_facilities.h"
@@ -17,9 +16,11 @@ try
 {
     Point tl{ 200,200 };
     Simple_window win{ tl,1600,1000,"Chapter 14 Ex 01" };
-    Graph_lib::Smiley sm1{ Point {400,400}, 200 };
-    
-    win.attach(sm1);
+    Graph_lib::Frowny_hat fh1{ Point {400,400}, 100 };    
+    win.attach(fh1);
+
+    Graph_lib::Smiley_hat sh1{ Point{800,400},100 };
+    win.attach(sh1);
 
     win.wait_for_button();
 }
