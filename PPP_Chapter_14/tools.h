@@ -82,5 +82,13 @@ namespace Graph_lib {
 	};
 	
 	//--------------------------------------------------------------------------------
+	//4. Define a class Immobile_Circle, which is just like Circle but can’t be moved.
+
+	struct Immobile_Circle :Circle {
+		using Circle::Circle;
+
+		void move(int dx, int dy) {}		
+	};
+	
 	
 }	// end of namespace Graph_lib
