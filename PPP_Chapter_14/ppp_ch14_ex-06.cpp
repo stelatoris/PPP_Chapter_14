@@ -15,10 +15,10 @@ int main()
 try
 {
     Point tl{ 200,200 };
-    Simple_window win{ tl,1600,1000,"Chapter 14 Ex 05" };
+    Simple_window win{ tl,1600,1000,"Chapter 14 Ex 06" };
 
-    Striped_rectangle sr1{ Point{200,200},200,100 };
-    win.attach(sr1);
+    Striped_circle sc1{ Point{200,200},100 };
+    win.attach(sc1);
     win.wait_for_button();    
 }
 
