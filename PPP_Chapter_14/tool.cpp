@@ -138,12 +138,12 @@ void Frowny_hat::position_hat()
 //------------------------------------------------------------------------------
 // Exercise 05
 
-Striped_rectangle::Striped_rectangle(Point xy, int ww, int hh) :
-	Rectangle{ xy ,ww ,hh }
+Striped_rectangle::Striped_rectangle(Point p, int w, int h) :
+	Rectangle{ p ,w ,h }
 {
-	add(xy);
-	for (int i = 0; i < ww; i += 10) {
-		stripes.add(Point{ 5+ xy.x + i,xy.y }, Point{5+ xy.x + i,xy.y + hh });
+	add(p);
+	for (int i = 0; i < w; i += 10) {
+		stripes.add(Point{ 5+ p.x + i,p.y }, Point{5+ p.x + i,p.y + h });
 	}
 	set_stripes_color(Color::black);
 }
@@ -161,4 +161,5 @@ void Striped_rectangle::draw_lines() const
 }
 
 //------------------------------------------------------------------------------
-	
+
+

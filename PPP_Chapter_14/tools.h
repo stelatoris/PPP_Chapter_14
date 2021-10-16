@@ -101,7 +101,6 @@ namespace Graph_lib {
 		void set_stripes_color(Color c);
 
 	private:
-		int w;
 		Lines stripes;
 	};
 
