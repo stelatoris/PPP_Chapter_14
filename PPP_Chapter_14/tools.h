@@ -101,9 +101,21 @@ namespace Graph_lib {
 		void set_stripes_color(Color c);
 
 	private:
-		Lines stripes;
+		Lines stripes;		
 	};
 
 	//--------------------------------------------------------------------------------
+	// 6. Define a Striped_circle using the technique from Striped_rectangle.
 	
+	struct Striped_circle : Circle {
+		Striped_circle(Point p, int r);
+		void draw_lines() const;
+		void set_stripes_color(Color c);
+
+	private:
+		Lines stripes;
+		void stripe_points();
+	};
+
+	//------------------------------------------------------------------------------	
 }	// end of namespace Graph_lib

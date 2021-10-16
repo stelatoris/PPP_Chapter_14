@@ -161,5 +161,53 @@ void Striped_rectangle::draw_lines() const
 }
 
 //------------------------------------------------------------------------------
+// Exercise 06
 
+Striped_circle::Striped_circle(Point p, int r) :
+	Circle{ p,r }
+{
+	add(p);
+	stripe_points();
+	set_stripes_color(Color::blue);
+}
+
+void Striped_circle::stripe_points()
+{
+	int n = 10;	// number of stripes
+
+	for (int i = 0; i <= Circle::radius() * 2; i += (Circle::radius() * 2 / n)) {
+		//cos(R)=x/r
+		//sin(R)=y/r
+
+		int w = Circle::radius() - i;	//width as in x in cos(R)=x/r
+		double cos_rad{ 0.0 };
+		cos_rad = double(w) / Circle::radius();	
+		double rad{ 0.0 };
+		rad = asin(cos_rad);	// find Radian to use to find Y point
+
+		Point m1;	//Upper end of line on circle
+		m1.x = Circle::center().x - Circle::radius() + i;
+		m1.y = Circle::center().y - (Circle::radius() * cos(rad));
+
+		Point m2;	//Bottom end of line on circle
+		m2.x = m1.x;
+		m2.y = Circle::center().y + (Circle::radius() * cos(rad));
+		
+		stripes.add(m1, m2);		
+	}
+}
+
+void Striped_circle::set_stripes_color(Color c)
+{
+	stripes.set_style(Line_style(Line_style::solid, 4));
+	stripes.set_color(c);
+}
+
+void Striped_circle::draw_lines() const
+{
+	stripes.draw();
+	Circle::draw_lines();
+}
+
+//------------------------------------------------------------------------------
 

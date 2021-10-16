@@ -17,11 +17,9 @@ try
     Point tl{ 200,200 };
     Simple_window win{ tl,1600,1000,"Chapter 14 Ex 05" };
 
-    //Striped_rectangle sr1{ Point{100,100},200,50, 2 };
-    Striped_rectangle srec1{ Point{100,100},300,100 };
-    srec1.set_stripes_color(Color::blue);
-    win.attach(srec1);
-    win.wait_for_button();
+    Striped_circle sc1{ Point{200,200},100 };
+    win.attach(sc1);
+    win.wait_for_button();    
 }
 
 catch (std::exception& e) {
