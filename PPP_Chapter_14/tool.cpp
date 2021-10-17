@@ -6,6 +6,7 @@
 #include "Simple_window.h"
 #include "tools.h"
 #include <math.h>
+using namespace std;
 
 using namespace Graph_lib;
 
@@ -210,4 +211,112 @@ void Striped_circle::draw_lines() const
 }
 
 //------------------------------------------------------------------------------
+// Exercise 07
+
+void Striped_closed_polyline::draw_lines() const
+{
+	Closed_polyline::draw_lines();
+	find_stripe_point();
+}
+
+void Striped_closed_polyline::find_stripe_point() const
+{
+	// find the boundary of the Closed_polygon
+	// then draw stripes in that boundary
+	// find all intersection points between stripes and polygon
+	// use those points to add points to Lines stripes
+
+	
+	
+	//----------------------------------------------------
+	int x_max{ point(0).x };
+	int y_max{ point(0).x };
+	int x_min{ point(0).y };
+	int y_min{ point(0).y };
+
+	// find the boundary of the Closed_polygon
+	for (int i = 0; i < number_of_points(); ++i) {
+		if (point(i).x > x_max) x_max = point(i).x;
+		if (point(i).x < x_min) x_min = point(i).x;
+		if (point(i).y > y_max) y_max = point(i).y;
+		if (point(i).y < y_min) y_min = point(i).y;
+	}
+
+	// add a bit of margin for intersection
+	x_max += 10; 
+	x_min -= 10;
+	y_max += 10;
+	y_min -= 10;
+	int x_diff = x_max - x_min;
+	
+	// draw lines within boundaries
+	Lines l;
+	for (int i = x_min; i < x_max; i += (x_diff / 10)) {
+		l.add(Point{ i,y_min }, Point{ i,y_max });
+	}
+	//----------------------------------------------------
+
+	vector<Point>v_intrsct;	// to store intersection points
+	
+	// find intersection points between verticle lines and polygon lines
+	for (int i = 0; i <= l.number_of_points(); i += 2) {	// verticle lines
+		// b1=y1-m.x1
+		// b2=y2-m.x2
+		int slope1, intercept1;
+		int x1, y1, x2, y2; //p1(x1,y1) and p2(x2,y2)
+		int dx1, dy1;		// difference in points
+
+		x1 = l.point(i).x;
+		y1 = l.point(i).y;
+		x2 = l.point(i + 1).x;		
+		y2 = l.point(i + 1).y;
+
+		dx1 = x2 - x1;
+		dy1 = y2 - y1;
+
+		//1. A1x + B1y = C1
+		//2. A2x + B2y = C2
+
+		slope1=dy1/dx1;
+		// y = mx + c
+		// intercept c = y - mx
+		intercept1 = y1 - slope1 * x1;
+
+		for (int ii = 0; ii < Closed_polyline::number_of_points(); ++ii) {	// polygon lines
+			int slope2, intercept2;
+			int xx1, yy1, xx2, yy2;
+			int dx2, dy2;
+
+			xx1 = Closed_polyline::point(i).x;
+			yy1 = Closed_polyline::point(i).y;
+			xx2 = Closed_polyline::point(i + 1).x;
+			yy2 = Closed_polyline::point(i + 1).y;
+
+			dx2 = xx2 - xx1;
+			dy2 = yy2 - yy1;
+
+			slope2 = dy2 / dx2;
+			// y = mx + c
+			// intercept c = y - mx
+			intercept2 = yy1 - slope2 * xx1;
+
+			Point p;	// intersection point
+			p.x = (intercept2 - intercept1) / (slope1 - slope2);
+			p.y = ((slope1 * intercept1) - (intercept2 * slope2)) / (slope1 - slope2);
+
+			v_intrsct.push_back(p);
+		}
+	}
+
+	Marks mark{ "x" };
+	for (int i = 0; i < v_intrsct.size(); ++i) {
+		mark.add(v_intrsct[i]);
+	}
+}
+
+void Striped_closed_polyline::set_stripes_color(Color c)
+{
+	stripes.set_style(Line_style(Line_style::solid, 4));
+	stripes.set_color(c);
+}
 
