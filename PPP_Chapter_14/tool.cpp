@@ -216,107 +216,101 @@ void Striped_circle::draw_lines() const
 void Striped_closed_polyline::draw_lines() const
 {
 	Closed_polyline::draw_lines();
-	find_stripe_point();
-}
-
-void Striped_closed_polyline::find_stripe_point() const
-{
+	//----------------------------------------------------
 	// find the boundary of the Closed_polygon
-	// then draw stripes in that boundary
+	// then "draw" vertical stripes in that boundary with number of stripes set
 	// find all intersection points between stripes and polygon
 	// use those points to add points to Lines stripes
 
-	
-	
-	//----------------------------------------------------
-	int x_max{ point(0).x };
-	int y_max{ point(0).x };
-	int x_min{ point(0).y };
-	int y_min{ point(0).y };
+	vector<Point>v_intrsct;	// to store intersection points
+
+	int stripe_num{ 10 };	// number of stripes set
+
+	int x_max{ Closed_polyline::point(0).x };
+	int y_max{ Closed_polyline::point(0).x };
+	int x_min{ Closed_polyline::point(0).y };
+	int y_min{ Closed_polyline::point(0).y };
 
 	// find the boundary of the Closed_polygon
-	for (int i = 0; i < number_of_points(); ++i) {
-		if (point(i).x > x_max) x_max = point(i).x;
-		if (point(i).x < x_min) x_min = point(i).x;
-		if (point(i).y > y_max) y_max = point(i).y;
-		if (point(i).y < y_min) y_min = point(i).y;
+	for (int i = 0; i < Closed_polyline::number_of_points(); ++i) {
+		if (Closed_polyline::point(i).x > x_max) x_max = Closed_polyline::point(i).x;
+		if (Closed_polyline::point(i).x < x_min) x_min = Closed_polyline::point(i).x;
+		if (Closed_polyline::point(i).y > y_max) y_max = Closed_polyline::point(i).y;
+		if (Closed_polyline::point(i).y < y_min) y_min = Closed_polyline::point(i).y;
 	}
 
-	// add a bit of margin for intersection
-	x_max += 10; 
-	x_min -= 10;
-	y_max += 10;
-	y_min -= 10;
 	int x_diff = x_max - x_min;
-	
-	// draw lines within boundaries
-	Lines l;
-	for (int i = x_min; i < x_max; i += (x_diff / 10)) {
-		l.add(Point{ i,y_min }, Point{ i,y_max });
-	}
-	//----------------------------------------------------
+	int x_gap = x_diff / stripe_num;
 
-	vector<Point>v_intrsct;	// to store intersection points
-	
-	// find intersection points between verticle lines and polygon lines
-	for (int i = 0; i <= l.number_of_points(); i += 2) {	// verticle lines
+	y_min -= 5;
+	y_max += 5;
+
+	int x1 = x_min;	// x coordinate of verticle line
+
+	// find intersecting points along x till x_max with a gap of (x_diff / 10)		
+	for (int i = 0; i < stripe_num; ++i) {	// verticle lines
 		// b1=y1-m.x1
 		// b2=y2-m.x2
-		int slope1, intercept1;
-		int x1, y1, x2, y2; //p1(x1,y1) and p2(x2,y2)
-		int dx1, dy1;		// difference in points
 
-		x1 = l.point(i).x;
-		y1 = l.point(i).y;
-		x2 = l.point(i + 1).x;		
-		y2 = l.point(i + 1).y;
-
-		dx1 = x2 - x1;
-		dy1 = y2 - y1;
-
-		//1. A1x + B1y = C1
-		//2. A2x + B2y = C2
-
-		slope1=dy1/dx1;
-		// y = mx + c
-		// intercept c = y - mx
-		intercept1 = y1 - slope1 * x1;
-
-		for (int ii = 0; ii < Closed_polyline::number_of_points(); ++ii) {	// polygon lines
-			int slope2, intercept2;
+		for (int ii = 1; ii <= Closed_polyline::number_of_points(); ++ii) {	// polygon lines
+			float slope, intercept;
 			int xx1, yy1, xx2, yy2;
-			int dx2, dy2;
+			float dx2, dy2;
 
-			xx1 = Closed_polyline::point(i).x;
-			yy1 = Closed_polyline::point(i).y;
-			xx2 = Closed_polyline::point(i + 1).x;
-			yy2 = Closed_polyline::point(i + 1).y;
+			//connect last point to first point to find intersection on closing side of polygon
+			if (ii == Closed_polyline::number_of_points()) {
+				xx1 = Closed_polyline::point(ii - 1).x;
+				yy1 = Closed_polyline::point(ii - 1).y;
+				xx2 = Closed_polyline::point(0).x;
+				yy2 = Closed_polyline::point(0).y;
+			}
+
+			else {
+				xx1 = Closed_polyline::point(ii - 1).x;
+				yy1 = Closed_polyline::point(ii - 1).y;
+				xx2 = Closed_polyline::point(ii).x;
+				yy2 = Closed_polyline::point(ii).y;
+			}
 
 			dx2 = xx2 - xx1;
 			dy2 = yy2 - yy1;
 
-			slope2 = dy2 / dx2;
+			if (dx2 == 0) {
+				break;
+			}
+
+			slope = dy2 / dx2;
 			// y = mx + c
 			// intercept c = y - mx
-			intercept2 = yy1 - slope2 * xx1;
+			intercept = yy1 - slope * xx1;
+
+			bool horizontal{ false };	// intersecting with horizontal line
+			if (dy2 == 0) { horizontal = true; }
+
+			bool out_of_line{ false };	// point is outside of line connecting 2 points
+			if ((x1 >= xx2 && x1 >= xx1) || (x1 <= xx2 && x1 <= xx1)) { out_of_line = true; }
 
 			Point p;	// intersection point
-			p.x = (intercept2 - intercept1) / (slope1 - slope2);
-			p.y = ((slope1 * intercept1) - (intercept2 * slope2)) / (slope1 - slope2);
 
-			v_intrsct.push_back(p);
+			if (horizontal && !out_of_line) {
+				p.x = x1;
+				p.y = yy1;
+			}
+			else if (!horizontal && !out_of_line) {
+				p.x = x1;
+				p.y = (slope * x1) + intercept;
+			}
+
+			if (!out_of_line) {
+				v_intrsct.push_back(p);
+			}
 		}
+		x1 += x_gap;
 	}
-
-	Marks mark{ "x" };
-	for (int i = 0; i < v_intrsct.size(); ++i) {
-		mark.add(v_intrsct[i]);
-	}
+	
+	for (int i = 1; i < v_intrsct.size(); i += 2) {
+		fl_line(v_intrsct[i - 1].x, v_intrsct[i - 1].y, v_intrsct[i].x, v_intrsct[i].y);		
+	}	
 }
 
-void Striped_closed_polyline::set_stripes_color(Color c)
-{
-	stripes.set_style(Line_style(Line_style::solid, 4));
-	stripes.set_color(c);
-}
 

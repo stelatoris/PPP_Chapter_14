@@ -12,11 +12,10 @@ using namespace std;
 
 using namespace Graph_lib;
 
-vector<Point>v_intrsct;	// to store intersection points
-
-void find2(Closed_polyline& cp, Simple_window& win)
+void add_stripes(Closed_polyline& cp, Simple_window& win)	// for testing concept
 {
-	//----------------------------------------------------
+	vector<Point>v_intrsct;	
+	// to store intersection points//----------------------------------------------------
 	int stripe_num{ 10 };
 	
 	int x_max{ cp.point(0).x };
@@ -35,16 +34,13 @@ void find2(Closed_polyline& cp, Simple_window& win)
 	int x_diff = x_max - x_min;	
 	int x_gap = x_diff / stripe_num;
 
-	// draw lines within boundaries
-	Lines l;
-	for (int i = x_min; i < x_max; i += x_gap) {
-		l.add(Point{ i,y_min }, Point{ i,y_max });
-	}	
+	y_min -= 5;
+	y_max += 5;
 
-	int x1 = l.point(0).x;
+	int x1 = x_min;
 
 	// find intersecting points along x till x_max with a gap of (x_diff / 10)		
-	for (int i = 0; i < l.number_of_points(); i += 2) {	// verticle lines
+	for (int i = 0; i < stripe_num; ++i) {	// verticle lines
 		// b1=y1-m.x1
 		// b2=y2-m.x2
 	
@@ -115,26 +111,25 @@ void find2(Closed_polyline& cp, Simple_window& win)
 	win.wait_for_button();
 }
 
-
 int main()
 try
 {
     Point tl{ 200,200 };
     Simple_window win{ tl,1600,1000,"Chapter 14 Ex 07" };
 
-	Closed_polyline poly1;
-	poly1.add(Point{ 200,250 });	
-	poly1.add(Point{ 300,375 });
-	poly1.add(Point{ 400,200 });
-	poly1.add(Point{ 350,150 });
-	poly1.add(Point{ 300,150 });
-	poly1.set_color(Color::black);
+	Striped_closed_polyline sp1;
+	sp1.add(Point{ 200,250 });
+	sp1.add(Point{ 300,375 });
+	sp1.add(Point{ 900,200 });
+	sp1.add(Point{ 350,150 });
+	sp1.add(Point{ 300,150 });
 
-	win.attach(poly1);
+	win.attach(sp1);
 	win.wait_for_button();
 
-	find2(poly1, win);
-	//find_stripe_point(poly1, win);
+	sp1.move(400,400);
+	win.attach(sp1);
+	win.wait_for_button();
 }
 
 catch (std::exception& e) {

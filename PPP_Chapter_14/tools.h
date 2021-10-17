@@ -122,16 +122,10 @@ namespace Graph_lib {
 	//   rectangle(this requires some algorithmic inventiveness).
 
 	struct Striped_closed_polyline : Closed_polyline {
-		//using Closed_polyline::Closed_polyline;
-		//Striped_closed_polyline();
 		void draw_lines() const;
-		void set_stripes_color(Color c);
-		void find_stripe_point() const;
-		
-		
-	private:
-		Lines stripes;		
+		void set_stripes_color(Color c);	
 	};
 
+	//------------------------------------------------------------------------------
 
 }	// end of namespace Graph_lib
