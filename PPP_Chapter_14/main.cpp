@@ -35,7 +35,7 @@ int main()
 try
 {
     Point tl{ 200,200 };
-    Simple_window win{ tl,1600,1000,"Chapter 14 Ex 07" };
+    Simple_window win{ tl,1600,1000,"Chapter 14 Ex 08" };
 
     Regular_octagon ro1{ Point {400,400},200 };
     win.attach(ro1);
