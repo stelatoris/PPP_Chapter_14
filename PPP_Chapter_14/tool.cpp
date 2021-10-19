@@ -313,4 +313,34 @@ void Striped_closed_polyline::draw_lines() const
 	}	
 }
 
+//------------------------------------------------------------------------------
+// Exercise 08
+
+Regular_octagon::Regular_octagon(Point p, int distance)
+	: c{ p }, d{ distance }
+{
+	add(Point{p.x-d,p.y});	// add point left of center as 1st point
+	find_points();
+}
+
+void Regular_octagon::draw_lines() const
+{
+	Closed_polyline::draw_lines();
+}
+
+void Regular_octagon::find_points()
+{
+	for (int x = 1; x <= 360; x += 45) {	// 1st was already added in constructor
+		int p_x{ 0 };
+		int p_y{ 0 };
+
+		p_x = c.x - cos(x * (PI / 180)) * d;
+		p_y = c.y - sin(x * (PI / 180)) * d;
+
+		Closed_polyline::add(Point{ p_x ,p_y });
+	}
+}
+
+//------------------------------------------------------------------------------
+
 

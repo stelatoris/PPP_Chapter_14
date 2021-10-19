@@ -127,5 +127,20 @@ namespace Graph_lib {
 	};
 
 	//------------------------------------------------------------------------------
+	// 8. Define a class Octagon to be a regular octagon.Write a test that exercises
+	// all of its functions(as defined by you or inherited from Shape).
+
+	struct Regular_octagon :Closed_polyline {
+
+		Regular_octagon(Point p, int distance);
+		void draw_lines() const;
+		int get_width() const { return d; }
+		int get_height() const { return point(0).y - point(2).y; }  // get top left point y distance
+
+	private:
+		int d;      // distance from center
+		Point c;    // center point		
+		void find_points();
+	};	
 
 }	// end of namespace Graph_lib
