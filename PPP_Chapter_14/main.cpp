@@ -37,11 +37,10 @@ try
     Point tl{ 200,200 };
     Simple_window win{ tl,1600,1000,"Chapter 14 Ex 08" };
 
-    Regular_octagon ro1{ Point {400,400},200 };
-    win.attach(ro1);
+    Binary_tree bt1{ Point {200,200},3 };
+    bt1.set_color(Color::red);
+    win.attach(bt1);
     win.wait_for_button();
-
-    test_reg_octagon(ro1, win);
 
 
 }

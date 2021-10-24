@@ -141,6 +141,31 @@ namespace Graph_lib {
 		int d;      // distance from center
 		Point c;    // center point		
 		void find_points();
-	};	
+	};
+
+	//------------------------------------------------------------------------------
+	/*	11. Define a Binary_tree class derived from Shape.Give the number of levels
+		as a parameter(levels == 0 means no nodes, levels == 1 means one node,
+		levels == 2 means one top node with two sub - nodes, levels == 3 means one
+		top node with two sub - nodes each with two sub - nodes, etc.).Let a node
+		be represented by a small circle.Connect the nodes by lines(as is conventional).
+		P.S.In computer science, trees grow downward from a top node
+		(amusingly, but logically, often called the root).
+	*/
+
+	struct Binary_tree :Shape {
+		Binary_tree(Point xy, int levels);
+		void draw_lines() const;
+		void set_color(Color col);
+
+
+	private:
+		int lvls;	// no of levels
+		Vector_ref<Shape> nodes;
+		void build_nodes(int l);
+		void add_sub_nodes(Point p);
+	};
+
+	//------------------------------------------------------------------------------
 
 }	// end of namespace Graph_lib

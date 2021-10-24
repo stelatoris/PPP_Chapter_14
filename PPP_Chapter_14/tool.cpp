@@ -342,5 +342,68 @@ void Regular_octagon::find_points()
 }
 
 //------------------------------------------------------------------------------
+// Exercise 11
 
+Binary_tree::Binary_tree(Point xy, int levels) :
+	lvls{ levels }
+{
+	if (levels < 0) error("number of nodes can't be less than zero");
+	if (levels == 0) return;	// tree is empty
+	add(xy);	// nodes 1 and higher
+
+	build_nodes(levels);
+	//draw_lines();
+}
+
+void Binary_tree::add_sub_nodes(Point p)
+{
+	Point r_node{ p.x + 100,p.y + 100 };
+	Point l_node{ p.x - 100,p.y + 100 };
+
+	// draw right node
+	//nodes.push_back(new Circle{ r_node,50 });
+	add(r_node);
+	add(l_node);
+	//nodes.push_back(new Line{ p,r_node });
+
+	// draw left node
+	
+	//nodes.push_back(new Line{ p,l_node });
+}
+
+void Binary_tree::build_nodes(int l)
+{
+	for (int i = 1; i < pow(2, l - 2); ++i) {
+		add_sub_nodes(point(i-1));
+	}
+	
+	/*int n{ 1 };
+	int sub_n{ 1 };
+
+	if (l > 1) {
+		for (int i = 0; i < l;++i) {
+			
+			n = n + (pow(2, i) * 2);
+			
+			cout << "Total nodes: " << n << '\n';
+		}
+	}*/	
+}
+
+void Binary_tree::draw_lines() const
+{
+	int r = 25;
+	if (color().visibility()) {
+		for (int i = 0; i < nodes.size(); ++i) {
+			fl_arc(point(i).x, point(i).y, r + r, r + r, 0, 360);
+		}
+	}
+}
+
+void Binary_tree::set_color(Color col)
+{
+	for (int i = 0; i < nodes.size(); ++i) {
+		nodes[i].set_color(col);
+	}
+}
 
