@@ -162,8 +162,7 @@ namespace Graph_lib {
 	private:
 		int lvls;	// no of levels
 		Vector_ref<Shape> nodes;
-		void build_nodes(int l);
-		void add_sub_nodes(Point p);
+		void build_nodes(int l);		
 	};
 
 	//------------------------------------------------------------------------------

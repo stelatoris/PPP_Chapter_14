@@ -34,11 +34,11 @@ void test_reg_octagon(Regular_octagon& r, Simple_window& win)
 int main()
 try
 {
-    Point tl{ 200,200 };
+    Point tl{ 600,200 };
     Simple_window win{ tl,1600,1000,"Chapter 14 Ex 08" };
 
-    Binary_tree bt1{ Point {200,200},3 };
-    bt1.set_color(Color::red);
+    Binary_tree bt1{ Point {800,200},5 };
+    //bt1.set_color(Color::red);
     win.attach(bt1);
     win.wait_for_button();
 

@@ -352,29 +352,22 @@ Binary_tree::Binary_tree(Point xy, int levels) :
 	add(xy);	// nodes 1 and higher
 
 	build_nodes(levels);
-	//draw_lines();
-}
-
-void Binary_tree::add_sub_nodes(Point p)
-{
-	Point r_node{ p.x + 100,p.y + 100 };
-	Point l_node{ p.x - 100,p.y + 100 };
-
-	// draw right node
-	//nodes.push_back(new Circle{ r_node,50 });
-	add(r_node);
-	add(l_node);
-	//nodes.push_back(new Line{ p,r_node });
-
-	// draw left node
-	
-	//nodes.push_back(new Line{ p,l_node });
+	draw_lines();
 }
 
 void Binary_tree::build_nodes(int l)
 {
-	for (int i = 1; i < pow(2, l - 2); ++i) {
-		add_sub_nodes(point(i-1));
+	int limit = pow(2, l - 1)-1;
+	int x_offset{ 50 };
+	int y_offset{ 50 };
+
+	for (int i = 1; i <= limit; ++i) {
+		
+		Point r_node{ point(i - 1).x + 100,point(i - 1).y + 100 };
+		Point l_node{ point(i - 1).x - 100,point(i - 1).y + 100 };
+		add(r_node);
+		add(l_node);
+		//add_sub_nodes(point(i-1));
 	}
 	
 	/*int n{ 1 };
@@ -394,10 +387,12 @@ void Binary_tree::draw_lines() const
 {
 	int r = 25;
 	if (color().visibility()) {
-		for (int i = 0; i < nodes.size(); ++i) {
+		for (int i = 0; i < Binary_tree::number_of_points(); ++i) {
 			fl_arc(point(i).x, point(i).y, r + r, r + r, 0, 360);
 		}
 	}
+
+	cout << "number of nodes=" << Binary_tree::number_of_points() << '\n';
 }
 
 void Binary_tree::set_color(Color col)
